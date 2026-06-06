@@ -9,6 +9,8 @@ interface ModalProps {
 
 export default function Modal({ children, onClose }: ModalProps) {
   useEffect(() => {
+    document.body.style.overflow = "hidden";
+
     function handleEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         onClose();
@@ -18,6 +20,8 @@ export default function Modal({ children, onClose }: ModalProps) {
     window.addEventListener("keydown", handleEscape);
 
     return () => {
+      document.body.style.overflow = "";
+
       window.removeEventListener("keydown", handleEscape);
     };
   }, [onClose]);
