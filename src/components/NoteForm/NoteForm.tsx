@@ -1,6 +1,7 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import type { NoteTag } from "../../types/note";
+import type { CreateNoteParams } from "../../services/noteService";
 import css from "./NoteForm.module.css";
 
 interface NoteFormValues {
@@ -11,6 +12,7 @@ interface NoteFormValues {
 
 interface NoteFormProps {
   onCancel: () => void;
+  onSubmit: (values: CreateNoteParams) => void;
 }
 
 const initialValues: NoteFormValues = {
@@ -30,13 +32,13 @@ const validationSchema = Yup.object({
     .required("Tag is required"),
 });
 
-export default function NoteForm({ onCancel }: NoteFormProps) {
+export default function NoteForm({ onCancel, onSubmit }: NoteFormProps) {
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={(values) => {
-        console.log(values);
+        onSubmit(values);
       }}
     >
       {({ isValid, dirty }) => (
