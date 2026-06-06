@@ -6,11 +6,13 @@ import { fetchNotes } from "../../services/noteService";
 import NoteList from "../NoteList/NoteList";
 import Pagination from "../Pagination/Pagination";
 import SearchBox from "../SearchBox/SearchBox";
+import Modal from "../Modal/Modal";
 import css from "./App.module.css";
 
 export default function App() {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const debouncedSearch = useDebouncedCallback((value: string) => {
     setSearch(value);
@@ -43,10 +45,17 @@ export default function App() {
           />
         )}
 
-        <button className={css.button}>Create note +</button>
+        <button className={css.button} onClick={() => setIsModalOpen(true)}>
+          Create note +
+        </button>
       </header>
 
       {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
+      {isModalOpen && (
+        <Modal onClose={() => setIsModalOpen(false)}>
+          <h2>Modal works!</h2>
+        </Modal>
+      )}
     </div>
   );
 }
